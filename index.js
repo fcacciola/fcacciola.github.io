@@ -218,9 +218,9 @@ function setup_micro_image()
       in_cell = false ; 
       if ( x >= 5 && x < 10 )
       {
-        if ( y >= 5 && y < 10 )
+        if ( y >= 0 && y < 5 )
         {
-          if ( is_cell_white(y-5,x-5) )
+          if ( is_cell_white(y,x-5) )
                set_micro_image_pixel_color_white(ctx,x,y) ;
           else set_micro_image_pixel_color_black(ctx,x,y) ;
 
