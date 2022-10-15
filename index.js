@@ -216,11 +216,11 @@ function setup_micro_image()
     for ( x = 0 ; x < 15 ; ++ x )
     {
       in_cell = false ; 
-      if ( x >= 0 && x < 5 )
+      if ( x >= 5 && x < 10 )
       {
-        if ( y >= 0 && y < 5 )
+        if ( y >= 5 && y < 10 )
         {
-          if ( is_cell_white(y,x) )
+          if ( is_cell_white(y-5,x-5) )
                set_micro_image_pixel_color_white(ctx,x,y) ;
           else set_micro_image_pixel_color_black(ctx,x,y) ;
 
@@ -295,7 +295,13 @@ function calculate_score()
 
 function show_score(score)
 {
-  document.getElementById("score").innerHTML = `Score: ${score} points (+1/-1 for each correct/incorrect color).`;  
+  success = ( score + 25 ) * 2 ;
+  document.getElementById("score").innerHTML = `Score: ${score} points (+1/-1 for each correct/incorrect color). ${success}% successful.`;  
+}
+
+function reset_score()
+{
+  document.getElementById("score").innerHTML = `Score:`;  
 }
 
 function set_next_cell_color(color)
@@ -333,7 +339,7 @@ function reset()
   setup_random_grid()
   hide_grids();
   clear_hint_image();
-  show_score(0);
+  reset_score();
 }
 
 function ready_for_next_choice()
