@@ -218,10 +218,10 @@ class MyPerlin {
 		this.maxs = Array(this.ncol * this.max_octave).fill(-Infinity)
 		this.mins = Array(this.ncol * this.max_octave).fill(Infinity)
 		this.height = 400 
-    this.width = 400
+        this.width = 470
 		this.red = Array(this.ncol).fill(1);
-    this.green = Array(this.ncol).fill(1);
-    this.blue = Array(this.ncol).fill(1)
+        this.green = Array(this.ncol).fill(1);
+        this.blue = Array(this.ncol).fill(1)
 		this.scale = 0.8 // between preview and analysis canvas
 
 		this.parameters['luminosity'] = Array(this.ncol).fill([1.3,0.9,0.5,0.3,0.2,0.1,0.1,0.1,0.35,0.35])
@@ -231,7 +231,6 @@ class MyPerlin {
 		this.green = [0.7,0.8,0.4,0.8,0.5,0.2,0.8,0.5,0.2,0.8,0.5,0.2]
 		this.blue = [1,0.5,0.5,0.8,0.5,0.2,0.8,0.5,0.2,0.8,0.5,0.2]
 		this.octave = [6,6,5,3,3,3,3,3,3,3,3]
-    this.Keith_parameters = "3;3140;6,6,6,3,3,3,3,3,3,3,3;1.5,1.5,1.5,1,1,1;0,0,0,0,0,0;.6,.9,0.2,0.8,0.5,0.2,0.8,0.5,0.2,0.8,0.5,0.2;0.7,.8,0.4,0.8,0.5,0.2,0.8,0.5,0.2,0.8,0.5,0.2;1,.5,0.5,0.8,0.5,0.2,0.8,0.5,0.2,0.8,0.5,0.2;1.3,0.9,0.5,0.3,0.2,0.1,0.1,0.1,0.35,0.35;1.3,0.9,0.5,0.3,0.2,0.1,0.1,0.1,0.35,0.35;1.3,0.9,0.5,0.3,0.2,0.1,0.1,0.1,0.35,0.35;2.9,2.9,2.9,2.9,2.9,2.9,3.2,2.2,0.35,0.35;2.9,2.9,2.9,2.9,2.9,2.9,3.2,2.2,0.35,0.35;2.9,2.9,2.9,2.9,2.9,2.9,3.2,2.2,0.35,0.35;0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.35;0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.35;0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.35"
 	}
 
 	contrast_fun(val,contr,thr,a,b) {
@@ -242,7 +241,6 @@ class MyPerlin {
     drawFrame() 
     {
         const grid = []
-        var perlus = []
         var canvas = document.getElementById("perlin_cva")
         const context = canvas.getContext("2d");
         const imageData = context.createImageData(this.width, this.height);
@@ -258,17 +256,16 @@ class MyPerlin {
                 var a = 1/(1/(1+ex2)-1/(1+ex1))
                 var b = a*(1/2 -1/(1+ex1))
     
+                var lum = this.parameters['luminosity'][col][i] ;
     
                 const factor = Math.pow(2,i)
                 var zoom = 0.18 //Math.max(this.zoom[col],0.18)
                 var perluss = new Perlin(20 * factor, 20 * factor,Math.floor(zoom* 200 / factor))
                 for(let y = 0; y < grid[col].height; ++y){
                     for(let x = 0; x < grid[col].width; ++x){
-                        var value = perluss.get(x, y) * this.parameters['luminosity'][col][i]
-                        if (true || this.params_changed) {
-                            if (value < this.mins[col,i]) { this.mins[col,i] = value }
-                            if (value > this.maxs[col,i]) { this.maxs[col,i] = value }
-                        }
+                        var value = perluss.get(x, y) * lum
+						if (value < this.mins[col,i]) { this.mins[col,i] = value }
+						if (value > this.maxs[col,i]) { this.maxs[col,i] = value }
                         var val = (value-this.mins[col,i])/(this.maxs[col,i]-this.mins[col,i]+0.001) 
                         var vall = (this.maxs[col,i]-this.mins[col,i])*this.contrast_fun(val,contr,thr,a,b)+this.mins[col,i]
                         grid[col].values[grid[col].indexOf(x, y)] += -vall*255

@@ -45,12 +45,15 @@ class SyneidolikOne
     `
   When learnig how to use this, first click on Show. You will see two 5x5 tiles. 
   The tile on the Right has a computer generated black and white pattern.
-  You can click on Reset to regenerate the pattern (and you can click on Show again to see it).
-  Your goal is to match the computer generated pattern WITHOUT seeing it, by guessing each cell color (black or white), one at a time.
-  For each of the nine cells, you will be given a secretly hidden message that should tell you, subliminally,the correct color of the corresponding cell.
-  After all 25 cells have been choosen (right or wrong), your pattern will be shown on the left, and the computer generated pattern on the right.
-  You will also be given a Score based on how many cells you guessed correctly.
+  The tile on the Left is your tile.
+  Your goal is to complete the tile on the left such that it matches the computer generated pattern, but WITHOUT seeing it, by guessing, one at a time, each cell color (black or white).
+  At each guessing step, you will be given a secret, hidden message, that will tell you, SUBLIMINALLY, the correct color of the corresponding computer generated cell.
+  After all cells have been choosen (right or wrong), the computer generated pattern will be shown to the right.
+  You will also be given a score based on how many cells you have guessed correctly.
+
   Click on Start to give it a try. When finished, you can click on Start again to repeat it.
+  You can click on Reset to regenerate the pattern (and you can click on Show again to see it).
+
   GOOD LUCK!
     `
     )
@@ -103,7 +106,7 @@ class SyneidolikOne
 
   setup_grid(g)
   {
-    var lx = g == 'a' ? 25 : 300 ;
+    var lx = g == 'a' ? 15 : 260 ;
     var ly = 120 ;
   
     for( var r = 0 ; r < this.cSize ; ++ r ) 
@@ -370,7 +373,7 @@ class SyneidolikOne
   {
     if ( this.gIdx > 0 )
     {
-      this.set_cell_color_by_idx('a',this.gIdx-1,"LightGray");
+      this.set_cell_color_by_idx('a',this.gIdx-1,this.colors['a'][this.gIdx-1]);
     }
 
     this.set_cell_color_by_idx('a',this.gIdx,"Gray");
@@ -387,22 +390,23 @@ class SyneidolikOne
     this.setInfo
     (
     `
-  Now you have to guess whether the (hidden) computer generated color at row ${r+1} and column ${c+1},
-  shown above as a drak-gray cell, is either black or white.
+  Now you have to guess whether the (hidden) computer generated color at row ${r+1} and column ${c+1} is either black or white.
      
-  In order to figure that out, imagine that there is an invisible person sitting right next to you.
+  In order to figure that out, imagine that there is an invisible person that is sitting right next to you.
   He knows the correct color and is telling you which is it. But secretly, so that no one else knows it too.
   
-  That (imaginary) invisible person is telling you the correct color by hiding a non-written, symbolic message in the fuzzy image shown above. 
+  That (imaginary) invisible person is telling you the correct color by hiding a non-written, symbolic message in the odd-looking color image to the left.
   
-  Imagine the hidden message somehow saying, BUT WIHTOUT USING WORDS, that the correct color is either ${color1} or ${color2}.
-  Try as hard as you can to discover the hidden message in the image. 
+  Imagine that the hidden message is somehow indicating, BUT WIHTOUT USING WORDS, the correct color (${color1} or ${color2}).
+  Try as hard as you can to discover and interpret the hidden message in the image. 
     
   TAKE YOUR TIME.
     
-  Once you FEEL that you've got the correct answer, click on the large ${color2} or ${color1} box.
-  The program will move to the next cell after each color selection, until your have guessed all 25 cells.
-  At the end, the hidden pattern will be revealed for you to compare, and a score will be calculated.
+  Once you FEEL that you've got the correct answer, click on either one of the ${color2} or ${color1} boxes below the image.
+  The program will move to the next cell after each color selection, until your have guessed all cells.
+  At the end, the hidden pattern will be revealed and a score will be calculated.
+
+  You can click on Start to do it all over again.
     `
     )
   
@@ -419,15 +423,7 @@ class SyneidolikOne
   {
     this.setup_grids();
     this.reset();
-    
-    this.setInfo
-    (
-    `
-    Click on FIRST TIME INSTRUCTIONS if you have never used this before.
-    Click on Start if you already know what to do.
-    `
-    )
-  
+    this.setInfo('Click on FIRST TIME INSTRUCTIONS, or click on Start if you already know what to do.')
   }
   
 }
